@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "report3", "report3\report3.csproj", "{0F7E4D14-9A1D-4BC9-A89D-A8DE62F916AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Report3", "report3\Report3.csproj", "{0F7E4D14-9A1D-4BC9-A89D-A8DE62F916AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
