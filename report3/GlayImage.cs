@@ -215,7 +215,7 @@ namespace ImageProcessing
                 builder.Append((char)b);
             }
             var res = builder.ToString();
-            if (res[res.Length - 1] == 0x0D)
+            if (res.EndsWith("\r\n"))
             {
                 res = res.Substring(0, res.Length - 2);
             }
