@@ -18,6 +18,11 @@ namespace ImageProcessing
             Read(path);
         }
 
+        public GlayImage(Size size)
+        {
+            Size = size;
+        }
+
         public void Read(string path)
         {
             var state = State.Header;
