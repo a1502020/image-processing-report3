@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Report3", "report3\Report3.csproj", "{0F7E4D14-9A1D-4BC9-A89D-A8DE62F916AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGlayImage", "TestGlayImage\TestGlayImage.csproj", "{438C0B00-D0E4-4531-8C8A-01073AC6C479}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0F7E4D14-9A1D-4BC9-A89D-A8DE62F916AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F7E4D14-9A1D-4BC9-A89D-A8DE62F916AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F7E4D14-9A1D-4BC9-A89D-A8DE62F916AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{438C0B00-D0E4-4531-8C8A-01073AC6C479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{438C0B00-D0E4-4531-8C8A-01073AC6C479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{438C0B00-D0E4-4531-8C8A-01073AC6C479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{438C0B00-D0E4-4531-8C8A-01073AC6C479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

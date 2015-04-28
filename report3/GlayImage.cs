@@ -23,13 +23,14 @@ namespace ImageProcessing
             var state = State.Header;
             var type = "P2";
             var y = 0;
-            using (var reader = new StreamReader(path))
+
+            using (var reader = new BinaryReader(File.OpenRead(path)))
             {
-                while (reader.Peek() >= 0 && state != State.Done)
+                while (state != State.Done)
                 {
                     if (state == State.Header)
                     {
-                        type = reader.ReadLine();
+                        type = readLine(reader);
                         if (type != "P2" && type != "P5")
                         {
                             throw new NotImplementedException("P2, P5 形式以外は未対応です。");
@@ -38,7 +39,7 @@ namespace ImageProcessing
                     }
                     else if (state == State.Size)
                     {
-                        var line = reader.ReadLine();
+                        var line = readLine(reader);
                         if (line.StartsWith("#"))
                         {
                             continue;
@@ -49,7 +50,7 @@ namespace ImageProcessing
                     }
                     else if (state == State.MaxValue)
                     {
-                        var line = reader.ReadLine();
+                        var line = readLine(reader);
                         if (line.StartsWith("#"))
                         {
                             continue;
@@ -62,7 +63,7 @@ namespace ImageProcessing
                     }
                     else if (state == State.ContentP2)
                     {
-                        var values = reader.ReadLine()
+                        var values = readLine(reader)
                             .Split(new char[] { ' ' })
                             .Select(str => int.Parse(str)).ToList();
                         for (var x = 0; x < Size.Width; ++x)
@@ -70,14 +71,22 @@ namespace ImageProcessing
                             image[x][y] = values[x];
                         }
                         ++y;
+                        if (y >= Size.Height)
+                        {
+                            state = State.Done;
+                        }
                     }
                     else if (state == State.ContentP5)
                     {
                         for (var x = 0; x < Size.Width; ++x)
                         {
-                            image[x][y] = reader.Read();
+                            image[x][y] = reader.ReadByte();
                         }
                         ++y;
+                        if (y >= Size.Height)
+                        {
+                            state = State.Done;
+                        }
                     }
                 }
             }
@@ -110,11 +119,12 @@ namespace ImageProcessing
             }
             else
             {
+                var sjis = Encoding.GetEncoding("Shift_JIS");
                 using (var writer = new BinaryWriter(File.OpenWrite(path)))
                 {
-                    writer.Write(type + Environment.NewLine);
-                    writer.Write(String.Format("{0} {1}" + Environment.NewLine, Size.Width, Size.Height));
-                    writer.Write(String.Format("{0}" + Environment.NewLine, 255));
+                    writeLine(writer, type);
+                    writeLine(writer, String.Format("{0} {1}", Size.Width, Size.Height));
+                    writeLine(writer, String.Format("{0}", 255));
                     for (var y = 0; y < Size.Height; ++y)
                     {
                         for (var x = 0; x < Size.Width; ++x)
@@ -188,6 +198,34 @@ namespace ImageProcessing
             ContentP2,
             ContentP5,
             Done,
+        }
+
+        private static string readLine(BinaryReader reader)
+        {
+            var builder = new StringBuilder();
+            var b = (byte)0;
+            while (b != 0x0A)
+            {
+                b = reader.ReadByte();
+                builder.Append((char)b);
+            }
+            var res = builder.ToString();
+            if (res[res.Length - 1] == 0x0D)
+            {
+                res = res.Substring(0, res.Length - 2);
+            }
+            else
+            {
+                res = res.Substring(0, res.Length - 1);
+            }
+            return res;
+        }
+
+        private static void writeLine(BinaryWriter writer, string str)
+        {
+            var sjis = Encoding.GetEncoding("Shift_JIS");
+            var nl = Environment.NewLine;
+            writer.Write(sjis.GetBytes(str + nl));
         }
     }
 }
