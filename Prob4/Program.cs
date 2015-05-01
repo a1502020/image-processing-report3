@@ -16,7 +16,7 @@ namespace Prob4
             // なぜ、そのようなトーンカーブにしたのかの画像A,Bのヒストグラム分布をもとに理由を示すこと。（画像A用のトーンカーブ、画像B用のトーンカーブ）
             //（2）ガンマ補正として　γ≐2,1/2として、濃度変換を行い、ヒストグラム分布を求めよ。
 
-            Do1();
+            Do2();
         }
 
         static void Do1()
@@ -65,6 +65,73 @@ namespace Prob4
 
             // 出力
             dest.Write("A_curve.pgm");
+        }
+
+        static void Do2()
+        {
+            // 画像読み込み
+            var src = new GlayImage("A.pgm");
+
+            foreach (var item in new List<Tuple<string, double>> { Tuple.Create("2_0", 2.0), Tuple.Create("0_5", 0.5) })
+            {
+                var name = item.Item1;
+                var gamma = item.Item2;
+
+                // ガンマ補正のトーンカーブ作成
+                var curve = new ToneCurve();
+                for (var i = 0; i < 256; ++i)
+                {
+                    var val = (int)(255 * Math.Pow(curve[i] / 255.0, 1 / gamma));
+                    if (val >= 256)
+                    {
+                        val = 255;
+                    }
+                    curve[i] = val;
+                }
+
+                // 画像を変換
+                var dest = src.Apply(curve);
+
+                // 画像を出力
+                dest.Write("A_gamma_" + name + ".pgm");
+
+                // ヒストグラム画像を生成
+                var hist = GetHistgramImage(dest);
+
+                // ヒストグラム画像を出力
+                hist.Write("A_gamma_" + name + "_hist.pgm");
+            }
+        }
+
+        static GlayImage GetHistgramImage(GlayImage src)
+        {
+            var hist = new int[256]; // 0 で初期化
+            var maxIndex = 0;
+            var maxValue = 0;
+            for (var y = 0; y < src.Size.Height; ++y)
+            {
+                for (var x = 0; x < src.Size.Width; ++x)
+                {
+                    var v = src[x, y];
+                    ++hist[v];
+                    if (hist[v] > maxValue)
+                    {
+                        maxIndex = v;
+                        maxValue = hist[v];
+                    }
+                }
+            }
+
+            var res = new GlayImage(new Size(256, 256));
+            for (var x = 0; x < 256; ++x)
+            {
+                for (var y = 0; y < 256; ++y)
+                {
+                    res[x, y] = (y * maxValue / 255 > maxValue - hist[x]) ? 255 : 0;
+                }
+            }
+
+            return res;
         }
     }
 }
