@@ -192,6 +192,24 @@ namespace ImageProcessing
             }
         }
 
+        /// <summary>
+        /// 各画素にトーンカーブを適用した画像を取得する。
+        /// </summary>
+        /// <param name="curve">トーンカーブ</param>
+        /// <returns>トーンカーブ適用後の画像</returns>
+        public GlayImage Apply(ToneCurve curve)
+        {
+            var res = new GlayImage(size);
+            for (var y = 0; y < size.Height; ++y)
+            {
+                for (var x = 0; x < size.Width; ++x)
+                {
+                    res[x, y] = curve[this[x, y]];
+                }
+            }
+            return res;
+        }
+
         private Size size = new Size(0, 0);
         private List<List<int>> image = new List<List<int>>();
 
