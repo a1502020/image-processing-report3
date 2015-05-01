@@ -44,11 +44,17 @@
     <Compile Include="..\report3\GlayImage.cs">
       <Link>ImageProcessing\GlayImage.cs</Link>
     </Compile>
+    <Compile Include="..\report3\Histgram.cs">
+      <Link>ImageProcessing\Histgram.cs</Link>
+    </Compile>
     <Compile Include="..\report3\Point.cs">
       <Link>ImageProcessing\Point.cs</Link>
     </Compile>
     <Compile Include="..\report3\Size.cs">
       <Link>ImageProcessing\Size.cs</Link>
+    </Compile>
+    <Compile Include="..\report3\ToneCurve.cs">
+      <Link>ImageProcessing\ToneCurve.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

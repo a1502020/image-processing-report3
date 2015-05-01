@@ -15,6 +15,8 @@ namespace TestGlayImage
             img.Read("A.pgm");
             img.Write("A_p2.pgm");
             img.Write("A_clone.pgm");
+            var hist = new Histgram(img);
+            hist.GetHistgramImage().Write("A_hist.pgm");
         }
     }
 }
